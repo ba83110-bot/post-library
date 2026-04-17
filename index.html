@@ -645,6 +645,7 @@ const LOCAL_POSTS_KEY = "threadmill_posts_cache";
 const LOCAL_TAGS_KEY = "threadmill_tags_cache";
 const APPS_SCRIPT_URL = window.APPS_SCRIPT_URL || "https://script.google.com/macros/s/AKfycby_LHMafnDbpOykpE5jJL3u-PiyZBxkdo4LHdTSNLGYTL7YHB2fCzMtlinkE2fBfCDx/exec";
 DEFAULT_TAGS.splice(0, DEFAULT_TAGS.length, "靈感", "行銷", "創作", "THREADMILL");
+const SEGMENT_SEPARATOR = "\n[[THREADMILL_SEGMENT]]\n";
 
 const safeJsonParse = (raw, fallback) => {
   try {
@@ -693,10 +694,17 @@ function escapeHtml(value) {
 }
 
 function segsOf(content) {
-  return String(content || "")
-    .split(/\n\s*\n+/)
-    .map((segment) => segment.trim())
-    .filter(Boolean);
+  const raw = String(content || "");
+  if (!raw.trim()) {
+    return [];
+  }
+  if (raw.includes(SEGMENT_SEPARATOR)) {
+    return raw
+      .split(SEGMENT_SEPARATOR)
+      .map((segment) => segment.trim())
+      .filter(Boolean);
+  }
+  return [raw.trim()];
 }
 
 function totalChars(segs) {
@@ -1106,7 +1114,7 @@ async function savePost() {
   const currentPost = editId ? posts.find((item) => item.id === editId) : null;
   const post = normalizePost({
     id: editId || Date.now().toString(),
-    content: segs.join("\n\n"),
+    content: segs.join(SEGMENT_SEPARATOR),
     tag: document.getElementById("c-tag").value,
     schedDate: document.getElementById("c-date").value,
     createdDate: currentPost?.createdDate || now
