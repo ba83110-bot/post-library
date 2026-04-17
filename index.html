@@ -193,376 +193,13 @@
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
-
-  .post-item {
-    padding: 15px 16px;
-    border-bottom: 0.5px solid var(--border);
-  }
-
-  .post-row {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .avatar,
-  .composer-avatar {
-    flex-shrink: 0;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: var(--accent-fg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  .post-body,
-  .composer-right {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .post-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-
-  .post-username,
-  .composer-name {
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  .post-right {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  .post-tag-pill {
-    background: var(--bg3);
-    color: var(--text2);
-    font-size: 11px;
-    border-radius: var(--radius-pill);
-    padding: 2px 8px;
-  }
-
-  .post-date,
-  .post-stats {
-    color: var(--text3);
-    font-size: 12px;
-  }
-
-  .post-content {
-    margin: 6px 0 10px;
-    line-height: 1.65;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  .seg-gap {
-    display: block;
-    height: 10px;
-  }
-
-  .copy-row,
-  .post-actions,
-  .footer-left {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .copy-btn,
-  .act-btn,
-  .sheet-cancel,
-  .add-seg-btn,
-  .tag-mgr-del,
-  .seg-del {
-    border: none;
-    background: none;
-    color: var(--text2);
-    cursor: pointer;
-  }
-
-  .copy-btn {
-    border: 0.5px solid var(--border2);
-    background: var(--bg2);
-    border-radius: var(--radius-pill);
-    padding: 8px 14px;
-    font-size: 13px;
-    min-height: 36px;
-  }
-
-  .copy-btn.done {
-    color: var(--success);
-    border-color: var(--success);
-  }
-
-  .act-btn {
-    padding: 0;
-    font-size: 12px;
-    color: var(--text3);
-  }
-
-  .act-btn:hover {
-    color: var(--text);
-  }
-
-  .toast {
-    position: fixed;
-    left: 50%;
-    bottom: 28px;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--text);
-    color: var(--bg);
-    padding: 10px 18px;
-    border-radius: var(--radius-pill);
-    font-size: 13px;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.2s ease;
-    z-index: 200;
-    white-space: nowrap;
-    box-shadow: var(--shadow);
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: rgba(0, 0, 0, 0.48);
-    align-items: flex-end;
-    justify-content: center;
-  }
-
-  .overlay.open {
-    display: flex;
-  }
-
-  .sheet {
-    width: 100%;
-    max-width: 480px;
-    max-height: 92vh;
-    display: flex;
-    flex-direction: column;
-    border-radius: 22px 22px 0 0;
-    background: var(--bg);
-    box-shadow: var(--shadow);
-  }
-
-  .sheet-handle {
-    width: 36px;
-    height: 4px;
-    margin: 12px auto 0;
-    border-radius: 999px;
-    background: var(--border2);
-  }
-
-  .sheet-header,
-  .sheet-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 12px 16px;
-    flex-shrink: 0;
-  }
-
-  .sheet-header {
-    padding-bottom: 8px;
-  }
-
-  .sheet-footer {
-    border-top: 0.5px solid var(--border);
-  }
-
-  .sheet-title {
-    font-size: 15px;
-    font-weight: 700;
-  }
-
-  .sheet-save,
-  .tag-add-btn {
-    border: none;
-    border-radius: var(--radius-pill);
-    background: var(--accent);
-    color: var(--accent-fg);
-    cursor: pointer;
-  }
-
-  .sheet-save {
-    padding: 8px 18px;
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .sheet-save:disabled {
-    opacity: 0.7;
-    cursor: default;
-  }
-
-  .sheet-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 0 16px 12px;
-  }
-
-  .composer-row {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .composer-avatar {
-    margin-top: 2px;
-  }
-
-  .composer-name {
-    margin-bottom: 8px;
-  }
-
-  .seg-block {
-    position: relative;
-    margin-bottom: 6px;
-  }
-
-  .seg-ta {
-    width: 100%;
-    min-height: 54px;
-    border: none;
-    background: transparent;
-    color: var(--text);
-    line-height: 1.6;
-    resize: none;
-    outline: none;
-  }
-
-  .seg-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-
-  .seg-count,
-  .total-count,
-  .conn-label {
-    font-size: 12px;
-    color: var(--text3);
-  }
-
-  .seg-count.warn,
-  .total-count.warn {
-    color: var(--warn);
-  }
-
-  .seg-count.over {
-    color: var(--danger);
-  }
-
-  .seg-del {
-    font-size: 20px;
-    line-height: 1;
-  }
-
-  .connector,
-  .add-seg {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-
-  .conn-line-wrap,
-  .add-seg-line {
-    width: 38px;
-    display: flex;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .conn-line {
-    width: 2px;
-    height: 16px;
-    background: var(--border2);
-  }
-
-  .add-seg-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-  }
-
-  .meta-sel,
-  .meta-date,
-  .tag-add-input {
-    border: 0.5px solid var(--border2);
-    background: var(--bg2);
-    color: var(--text);
-    outline: none;
-  }
-
-  .meta-sel,
-  .meta-date {
-    border-radius: var(--radius-pill);
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-
-  .tag-mgr-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 0.5px solid var(--border);
-  }
-
-  .tag-mgr-name {
-    font-size: 15px;
-  }
-
-  .tag-add-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 14px;
-  }
-
-  .tag-add-input {
-    flex: 1;
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-  }
-
-  .tag-add-btn {
-    border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    white-space: nowrap;
-  }
 </style>
 </head>
 <body>
 <div class="topbar">
   <span class="topbar-title">THREADMILL 貼文排程</span>
   <div class="topbar-right">
-    <button class="btn-icon" onclick="openTagMgr()" title="管理標籤" aria-label="管理標籤">
+    <button class="btn-icon" onclick="openTagMgr()" title="管理分類" aria-label="管理分類">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
         <path d="M4 6h16M4 12h16M4 18h7"></path>
       </svg>
@@ -572,7 +209,7 @@
 </div>
 
 <div class="search-wrap">
-  <input class="search-input" type="text" placeholder="搜尋貼文內容或標籤..." id="search" oninput="renderPosts()">
+  <input class="search-input" type="text" placeholder="搜尋貼文內容或分類..." id="search" oninput="renderPosts()">
 </div>
 
 <div class="filter-wrap" id="filter-bar"></div>
@@ -631,16 +268,19 @@
     <div class="sheet-handle"></div>
     <div class="sheet-header">
       <button class="sheet-cancel" onclick="closeTagMgr()">關閉</button>
-      <span class="sheet-title">管理標籤</span>
+      <span class="sheet-title">管理分類</span>
       <div style="width:48px;"></div>
     </div>
     <div class="sheet-body" id="tag-mgr-body"></div>
   </div>
 </div>
-
 <script>
-const API = "https://script.google.com/macros/s/AKfycbyGP2Qtuuh84G-p5MbVndPQV7sthBm7uvRl0oeJecBU2rOOGyjTSEeexisMHydKUbzklA/exec";
+
 const DEFAULT_TAGS = ["靈感", "行銷", "創作", "THREADMILL"];
+const LOCAL_POSTS_KEY = "threadmill_posts_cache";
+const LOCAL_TAGS_KEY = "threadmill_tags_cache";
+const APPS_SCRIPT_URL = window.APPS_SCRIPT_URL || "https://script.google.com/macros/s/AKfycby_LHMafnDbpOykpE5jJL3u-PiyZBxkdo4LHdTSNLGYTL7YHB2fCzMtlinkE2fBfCDx/exec";
+DEFAULT_TAGS.splice(0, DEFAULT_TAGS.length, "靈感", "行銷", "創作", "THREADMILL");
 
 const safeJsonParse = (raw, fallback) => {
   try {
@@ -654,7 +294,7 @@ const storedName = localStorage.getItem("username");
 const USERNAME = storedName && storedName.trim() ? storedName.trim() : "使用者";
 
 let posts = [];
-let tags = safeJsonParse(localStorage.getItem("tags_cache"), DEFAULT_TAGS);
+let tags = safeJsonParse(localStorage.getItem(LOCAL_TAGS_KEY), DEFAULT_TAGS);
 if (!Array.isArray(tags) || !tags.length) {
   tags = [...DEFAULT_TAGS];
 }
@@ -662,9 +302,21 @@ if (!Array.isArray(tags) || !tags.length) {
 let activeFilter = "";
 let editId = null;
 let draftSegs = [""];
+let cloudReady = false;
 
 function normalizeTag(value) {
   return String(value ?? "").trim();
+}
+
+function normalizePost(post) {
+  return {
+    id: String(post?.id ?? Date.now()),
+    content: String(post?.content ?? "").trim(),
+    tag: normalizeTag(post?.tag),
+    schedDate: String(post?.schedDate ?? ""),
+    createdDate: String(post?.createdDate ?? ""),
+    updatedAt: post?.updatedAt ?? null
+  };
 }
 
 function escapeHtml(value) {
@@ -674,24 +326,6 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
-}
-
-async function apiFetch(url) {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error("API fetch failed");
-  }
-  return response.json();
-}
-
-async function apiPost(data) {
-  const response = await fetch(API, {
-    method: "POST",
-    body: JSON.stringify(data)
-  });
-  if (!response.ok) {
-    throw new Error("API post failed");
-  }
 }
 
 function segsOf(content) {
@@ -729,6 +363,79 @@ function copyText(text, btn) {
   });
 }
 
+function cachePosts() {
+  localStorage.setItem(LOCAL_POSTS_KEY, JSON.stringify(posts));
+}
+
+function cacheTags() {
+  localStorage.setItem(LOCAL_TAGS_KEY, JSON.stringify(tags));
+}
+
+function sortPosts(items) {
+  return [...items].sort((a, b) => {
+    const bySched = String(b.schedDate || "").localeCompare(String(a.schedDate || ""));
+    if (bySched !== 0) {
+      return bySched;
+    }
+    return String(b.createdDate || "").localeCompare(String(a.createdDate || ""));
+  });
+}
+
+function bootstrapCloud() {
+  cloudReady = Boolean(String(APPS_SCRIPT_URL || "").trim());
+}
+
+async function apiFetch(params = {}) {
+  const url = new URL(APPS_SCRIPT_URL);
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      url.searchParams.set(key, value);
+    }
+  });
+  const response = await fetch(url.toString());
+  if (!response.ok) {
+    throw new Error("Apps Script GET failed");
+  }
+  return response.json();
+}
+
+async function apiPost(payload) {
+  const response = await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    throw new Error("Apps Script POST failed");
+  }
+  return response.json();
+}
+
+async function loadPostsFromCloud() {
+  const data = await apiFetch({ action: "getPosts" });
+  return sortPosts((Array.isArray(data) ? data : []).map(normalizePost));
+}
+
+async function loadTagsFromCloud() {
+  const data = await apiFetch({ action: "getTags" });
+  return [...new Set((Array.isArray(data) ? data : DEFAULT_TAGS).map(normalizeTag).filter(Boolean))];
+}
+
+async function writePostToCloud(post) {
+  await apiPost({ action: "savePost", post });
+}
+
+async function deletePostFromCloud(id) {
+  await apiPost({ action: "deletePost", id });
+}
+
+async function writeTagsToCloud(nextTags) {
+  await apiPost({ action: "saveTags", tags: nextTags });
+}
+
+async function removeTagFromCloud(tagToRemove) {
+  await apiPost({ action: "removeTagFromPosts", tag: normalizeTag(tagToRemove) });
+}
+
 function renderFilter() {
   const showTags = ["全部", ...new Set(tags.map(normalizeTag).filter(Boolean))];
   document.getElementById("filter-bar").innerHTML = showTags.map((tag) => {
@@ -755,7 +462,7 @@ function renderPosts() {
 
   const list = document.getElementById("post-list");
   if (!filtered.length) {
-    list.innerHTML = '<div class="empty">目前沒有符合條件的貼文。<br>試著放寬搜尋條件或新增一篇看看。</div>';
+    list.innerHTML = '<div class="empty">目前沒有符合條件的貼文。<br>試著放寬搜尋或新增一篇貼文。</div>';
     return;
   }
 
@@ -800,20 +507,30 @@ function renderPosts() {
 
 async function loadAll() {
   try {
-    const [postsData, tagsData] = await Promise.all([
-      apiFetch(API),
-      apiFetch(`${API}?action=getTags`).catch(() => tags)
-    ]);
-    posts = Array.isArray(postsData)
-      ? postsData.map((post) => ({ ...post, tag: normalizeTag(post.tag) }))
-      : [];
-    if (Array.isArray(tagsData) && tagsData.length) {
-      tags = tagsData.map(normalizeTag).filter(Boolean);
-      localStorage.setItem("tags_cache", JSON.stringify(tags));
+    if (cloudReady) {
+      const [postsData, tagsData] = await Promise.all([
+        loadPostsFromCloud(),
+        loadTagsFromCloud()
+      ]);
+      posts = postsData;
+      tags = tagsData;
+      cachePosts();
+      cacheTags();
+    } else {
+      posts = sortPosts(safeJsonParse(localStorage.getItem(LOCAL_POSTS_KEY), []).map(normalizePost));
+      tags = [...new Set(safeJsonParse(localStorage.getItem(LOCAL_TAGS_KEY), DEFAULT_TAGS).map(normalizeTag).filter(Boolean))];
+      if (!tags.length) {
+        tags = [...DEFAULT_TAGS];
+      }
+      showToast("尚未設定 Apps Script，現在先使用本機暫存");
     }
   } catch (error) {
-    posts = [];
-    showToast("資料載入失敗，先顯示空白頁面");
+    posts = sortPosts(safeJsonParse(localStorage.getItem(LOCAL_POSTS_KEY), []).map(normalizePost));
+    tags = [...new Set(safeJsonParse(localStorage.getItem(LOCAL_TAGS_KEY), DEFAULT_TAGS).map(normalizeTag).filter(Boolean))];
+    if (!tags.length) {
+      tags = [...DEFAULT_TAGS];
+    }
+    showToast("Apps Script 連線失敗，已改用本機暫存");
   }
 
   renderIdentity();
@@ -822,11 +539,15 @@ async function loadAll() {
 }
 
 async function saveTags() {
-  localStorage.setItem("tags_cache", JSON.stringify(tags));
+  cacheTags();
+  if (!cloudReady) {
+    return;
+  }
+
   try {
-    await apiPost({ action: "saveTags", tags });
+    await writeTagsToCloud(tags);
   } catch (error) {
-    showToast("標籤已暫存在本機，遠端同步失敗");
+    showToast("分類已存在本機，但雲端同步失敗");
   }
 }
 
@@ -835,15 +556,26 @@ async function deletePost(id) {
     return;
   }
 
+  const previousPosts = [...posts];
   posts = posts.filter((item) => item.id !== id);
+  cachePosts();
   renderFilter();
   renderPosts();
 
+  if (!cloudReady) {
+    showToast("貼文已刪除並儲存在本機");
+    return;
+  }
+
   try {
-    await apiPost({ action: "delete", id });
+    await deletePostFromCloud(id);
     showToast("貼文已刪除");
   } catch (error) {
-    showToast("遠端刪除失敗，但畫面已先更新");
+    posts = previousPosts;
+    cachePosts();
+    renderFilter();
+    renderPosts();
+    showToast("雲端刪除失敗，已還原畫面");
   }
 }
 
@@ -926,7 +658,7 @@ function renderSegsEditor() {
     textarea.className = "seg-ta";
     textarea.rows = 3;
     textarea.value = seg;
-    textarea.placeholder = index === 0 ? "輸入第一段內容..." : "輸入下一段 thread 內容...";
+    textarea.placeholder = index === 0 ? "輸入第一段內容..." : "輸入下一段內容...";
     textarea.oninput = function () {
       draftSegs[index] = this.value;
       autoResize(this);
@@ -979,14 +711,15 @@ async function savePost() {
 
   const now = new Date().toLocaleDateString("zh-TW");
   const currentPost = editId ? posts.find((item) => item.id === editId) : null;
-  const post = {
+  const post = normalizePost({
     id: editId || Date.now().toString(),
     content: segs.join("\n\n"),
-    tag: normalizeTag(document.getElementById("c-tag").value),
+    tag: document.getElementById("c-tag").value,
     schedDate: document.getElementById("c-date").value,
     createdDate: currentPost?.createdDate || now
-  };
+  });
 
+  const previousPosts = [...posts];
   if (editId) {
     const index = posts.findIndex((item) => item.id === editId);
     if (index >= 0) {
@@ -995,16 +728,29 @@ async function savePost() {
   } else {
     posts.unshift(post);
   }
+  posts = sortPosts(posts);
+  cachePosts();
 
   renderFilter();
   renderPosts();
   closeComposer();
 
+  if (!cloudReady) {
+    showToast("貼文已儲存在本機，設定 Apps Script 後就會雲端同步");
+    saveButton.textContent = "儲存";
+    saveButton.disabled = false;
+    return;
+  }
+
   try {
-    await apiPost({ action: "save", ...post });
-    showToast("貼文已儲存");
+    await writePostToCloud(post);
+    showToast("貼文已同步到 Google Sheets");
   } catch (error) {
-    showToast("遠端儲存失敗，但內容仍保留在畫面上");
+    posts = previousPosts;
+    cachePosts();
+    renderFilter();
+    renderPosts();
+    showToast("雲端儲存失敗，已還原畫面");
   } finally {
     saveButton.textContent = "儲存";
     saveButton.disabled = false;
@@ -1029,7 +775,7 @@ function renderTagMgr() {
         <button class="tag-mgr-del" onclick='delTag(${JSON.stringify(tag)})'>刪除</button>
       </div>`),
     `<div class="tag-add-row">
-      <input class="tag-add-input" type="text" id="new-tag-inp" placeholder="新增一個標籤...">
+      <input class="tag-add-input" type="text" id="new-tag-inp" placeholder="新增一個分類...">
       <button class="tag-add-btn" onclick="addTag()">新增</button>
     </div>`
   ].join("");
@@ -1042,16 +788,45 @@ function renderTagMgr() {
   };
 }
 
-function delTag(tag) {
+async function delTag(tag) {
   const normalizedTag = normalizeTag(tag);
+  const previousTags = [...tags];
+  const previousPosts = [...posts];
+
   tags = tags.filter((item) => normalizeTag(item) !== normalizedTag);
-  saveTags();
+  posts = posts.map((post) => normalizeTag(post.tag) === normalizedTag ? { ...post, tag: "" } : post);
+  cacheTags();
+  cachePosts();
   renderTagMgr();
   renderFilter();
+  renderPosts();
   renderTagSelect(document.getElementById("c-tag").value);
+
+  if (!cloudReady) {
+    showToast("分類已更新並儲存在本機");
+    return;
+  }
+
+  try {
+    await Promise.all([
+      writeTagsToCloud(tags),
+      removeTagFromCloud(normalizedTag)
+    ]);
+    showToast("分類已同步到 Google Sheets");
+  } catch (error) {
+    tags = previousTags;
+    posts = previousPosts;
+    cacheTags();
+    cachePosts();
+    renderTagMgr();
+    renderFilter();
+    renderPosts();
+    renderTagSelect(document.getElementById("c-tag").value);
+    showToast("雲端更新失敗，已還原畫面");
+  }
 }
 
-function addTag() {
+async function addTag() {
   const input = document.getElementById("new-tag-inp");
   const value = normalizeTag(input.value);
   if (!value) {
@@ -1061,17 +836,35 @@ function addTag() {
 
   if (tags.map(normalizeTag).includes(value)) {
     input.value = "";
-    showToast("這個標籤已經存在");
+    showToast("這個分類已經存在");
     return;
   }
 
+  const previousTags = [...tags];
   tags.push(value);
+  tags = [...new Set(tags.map(normalizeTag).filter(Boolean))];
   input.value = "";
-  saveTags();
+  cacheTags();
   renderTagMgr();
   renderFilter();
   renderTagSelect(value);
-  showToast(`已新增標籤：${value}`);
+
+  if (!cloudReady) {
+    showToast(`已新增分類：${value}`);
+    return;
+  }
+
+  try {
+    await writeTagsToCloud(tags);
+    showToast(`已新增分類：${value}`);
+  } catch (error) {
+    tags = previousTags;
+    cacheTags();
+    renderTagMgr();
+    renderFilter();
+    renderTagSelect(document.getElementById("c-tag").value);
+    showToast("雲端新增分類失敗，已還原");
+  }
 }
 
 document.getElementById("composer-overlay").addEventListener("click", (event) => {
@@ -1086,6 +879,20 @@ document.getElementById("tag-overlay").addEventListener("click", (event) => {
   }
 });
 
+window.setFilter = setFilter;
+window.copyText = copyText;
+window.openComposer = openComposer;
+window.closeComposer = closeComposer;
+window.addSeg = addSeg;
+window.savePost = savePost;
+window.openTagMgr = openTagMgr;
+window.closeTagMgr = closeTagMgr;
+window.delTag = delTag;
+window.addTag = addTag;
+window.deletePost = deletePost;
+window.renderPosts = renderPosts;
+
+bootstrapCloud();
 renderIdentity();
 renderTagSelect("");
 renderSegsEditor();
