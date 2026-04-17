@@ -668,6 +668,7 @@ let activeFilter = "";
 let editId = null;
 let draftSegs = [""];
 let cloudReady = false;
+let expandedPosts = new Set();
 
 function normalizeTag(value) {
   return String(value ?? "").trim();
@@ -879,10 +880,14 @@ function renderPosts() {
     const segs = segsOf(post.content);
     const total = totalChars(segs);
     const dateLabel = post.schedDate ? `排程 ${post.schedDate}` : (post.createdDate || "");
+    const isExpanded = expandedPosts.has(String(post.id));
     const contentHtml = segs.map((seg, index) => {
       const gap = index < segs.length - 1 ? '<span class="seg-gap"></span>' : "";
-      return `<span>${escapeHtml(truncateText(seg, 30))}</span>${gap}`;
+      return `<span>${escapeHtml(isExpanded ? seg : truncateText(seg, 30))}</span>${gap}`;
     }).join("");
+    const toggleButton = total > 30 || segs.some((seg) => seg.length > 30)
+      ? `<button class="act-btn" onclick='togglePostExpanded(${JSON.stringify(post.id)})'>${isExpanded ? "收合" : "展開全文"}</button>`
+      : "";
     const copyButtons = segs.length > 1
       ? [
           ...segs.map((seg, index) => `<button class="copy-btn" type="button" data-copy="${escapeHtml(seg)}">複製段落 ${index + 1}</button>`),
@@ -905,6 +910,7 @@ function renderPosts() {
           <div class="post-stats">${total} 字，共 ${segs.length} 段</div>
           <div class="copy-row">${copyButtons}</div>
           <div class="post-actions">
+            ${toggleButton}
             <button class="act-btn" onclick='openComposer(${JSON.stringify(post.id)})'>編輯</button>
             <button class="act-btn" onclick='deletePost(${JSON.stringify(post.id)})'>刪除</button>
           </div>
@@ -912,6 +918,16 @@ function renderPosts() {
       </div>
     </div>`;
   }).join("");
+}
+
+function togglePostExpanded(id) {
+  const key = String(id);
+  if (expandedPosts.has(key)) {
+    expandedPosts.delete(key);
+  } else {
+    expandedPosts.add(key);
+  }
+  renderPosts();
 }
 
 async function loadAll() {
