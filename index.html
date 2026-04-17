@@ -869,10 +869,10 @@ function renderPosts() {
     }).join("");
     const copyButtons = segs.length > 1
       ? [
-          ...segs.map((seg, index) => `<button class="copy-btn" onclick='copyText(${JSON.stringify(seg)}, this)'>複製段落 ${index + 1}</button>`),
-          `<button class="copy-btn" onclick='copyText(${JSON.stringify(segs.join("\n\n"))}, this)'>複製全文</button>`
+          ...segs.map((seg, index) => `<button class="copy-btn" type="button" data-copy="${escapeHtml(seg)}">複製段落 ${index + 1}</button>`),
+          `<button class="copy-btn" type="button" data-copy="${escapeHtml(segs.join("\n\n"))}">複製全文</button>`
         ].join("")
-      : `<button class="copy-btn" onclick='copyText(${JSON.stringify(post.content || "")}, this)'>複製內容</button>`;
+      : `<button class="copy-btn" type="button" data-copy="${escapeHtml(post.content || "")}">複製內容</button>`;
 
     return `<div class="post-item">
       <div class="post-row">
@@ -1270,6 +1270,14 @@ document.getElementById("tag-overlay").addEventListener("click", (event) => {
   if (event.target === document.getElementById("tag-overlay")) {
     closeTagMgr();
   }
+});
+
+document.addEventListener("click", (event) => {
+  const button = event.target.closest(".copy-btn");
+  if (!button) {
+    return;
+  }
+  copyText(button.dataset.copy || "", button);
 });
 
 window.setFilter = setFilter;
