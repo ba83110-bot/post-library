@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>貼文素材庫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f5;
+    --bg3: #ebebeb;
+    --text: #0a0a0a;
+    --text2: #555555;
+    --text3: #999999;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.15);
+    --accent: #000000;
+    --accent-fg: #ffffff;
+    --warn: #d97706;
+    --danger: #dc2626;
+    --success: #16a34a;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-pill: 999px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101010;
+      --bg2: #1a1a1a;
+      --bg3: #242424;
+      --text: #f0f0f0;
+      --text2: #aaaaaa;
+      --text3: #666666;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.15);
+      --accent: #f0f0f0;
+      --accent-fg: #101010;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Noto Sans TC', -apple-system, sans-serif; font-size: 15px; }
+  body { max-width: 480px; margin: 0 auto; min-height: 100vh; }
+
+  /* Top bar */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 12px; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 10; }
+  .topbar-title { font-size: 17px; font-weight: 600; }
+  .topbar-right { display: flex; gap: 8px; align-items: center; }
+  .btn-write { background: var(--accent); color: var(--accent-fg); border: none; border-radius: var(--radius-pill); padding: 7px 18px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
+  .btn-icon { background: none; border: none; cursor: pointer; color: var(--text2); padding: 4px; display: flex; align-items: center; }
+
+  /* Filter */
+  .filter-wrap { padding: 10px 16px; border-bottom: 0.5px solid var(--border); display: flex; gap: 6px; overflow-x: auto; }
+  .filter-wrap::-webkit-scrollbar { display: none; }
+  .ftag { padding: 5px 14px; border-radius: var(--radius-pill); border: 0.5px solid var(--border2); font-size: 13px; cursor: pointer; background: transparent; color: var(--text2); white-space: nowrap; font-family: inherit; transition: all .15s; }
+  .ftag.active { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+
+  /* Search */
+  .search-wrap { padding: 10px 16px; border-bottom: 0.5px solid var(--border); }
+  .search-input { width: 100%; background: var(--bg2); border: none; border-radius: var(--radius-sm); padding: 9px 12px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; }
+  .search-input::placeholder { color: var(--text3); }
+
+  /* Posts */
+  .post-item { padding: 14px 16px; border-bottom: 0.5px solid var(--border); }
+  .post-row { display: flex; gap: 12px; }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--accent); color: var(--accent-fg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; }
+  .post-body { flex: 1; min-width: 0; }
+  .post-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
+  .post-username { font-size: 14px; font-weight: 600; }
+  .post-right { display: flex; align-items: center; gap: 6px; }
+  .post-tag-pill { font-size: 11px; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--bg3); color: var(--text2); }
+  .post-date { font-size: 12px; color: var(--text3); }
+  .post-content { font-size: 15px; line-height: 1.6; color: var(--text); white-space: pre-wrap; word-break: break-word; margin: 6px 0 8px; }
+  .seg-gap { display: block; height: 8px; }
+  .post-stats { font-size: 12px; color: var(--text3); margin-bottom: 8px; }
+  .copy-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .copy-btn { font-size: 12px; padding: 4px 12px; border-radius: var(--radius-pill); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text2); cursor: pointer; font-family: inherit; transition: all .15s; }
+  .copy-btn.done { color: var(--success); border-color: var(--success); }
+  .post-actions { display: flex; gap: 14px; }
+  .act-btn { font-size: 12px; color: var(--text3); background: none; border: none; cursor: pointer; font-family: inherit; padding: 0; }
+  .act-btn:hover { color: var(--text); }
+  .empty { text-align: center; padding: 80px 20px; color: var(--text3); font-size: 14px; line-height: 2; }
+
+  /* Loading */
+  .loading { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; }
+  .spinner { width: 24px; height: 24px; border: 2px solid var(--border2); border-top-color: var(--text2); border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Toast */
+  .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: var(--bg); padding: 10px 20px; border-radius: var(--radius-pill); font-size: 13px; opacity: 0; transition: all .2s; pointer-events: none; white-space: nowrap; z-index: 999; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Sheet */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: flex-end; justify-content: center; }
+  .overlay.open { display: flex; }
+  .sheet { background: var(--bg); border-radius: 20px 20px 0 0; width: 100%; max-width: 480px; max-height: 92vh; display: flex; flex-direction: column; }
+  .sheet-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 12px auto 0; flex-shrink: 0; }
+  .sheet-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px 8px; flex-shrink: 0; }
+  .sheet-title { font-size: 15px; font-weight: 600; }
+  .sheet-cancel { font-size: 14px; color: var(--text2); background: none; border: none; cursor: pointer; font-family: inherit; }
+  .sheet-save { font-size: 14px; font-weight: 600; background: var(--accent); color: var(--accent-fg); border: none; border-radius: var(--radius-pill); padding: 7px 18px; cursor: pointer; font-family: inherit; }
+  .sheet-body { overflow-y: auto; flex: 1; padding: 0 16px 12px; }
+  .composer-row { display: flex; gap: 12px; align-items: flex-start; }
+  .composer-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--accent); color: var(--accent-fg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; margin-top: 2px; }
+  .composer-right { flex: 1; min-width: 0; }
+  .composer-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .seg-block { margin-bottom: 4px; position: relative; }
+  .seg-ta { width: 100%; border: none; background: transparent; color: var(--text); font-size: 15px; line-height: 1.6; resize: none; outline: none; font-family: inherit; padding: 0; min-height: 48px; }
+  .seg-ta::placeholder { color: var(--text3); }
+  .seg-footer { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .seg-count { font-size: 12px; color: var(--text3); }
+  .seg-count.warn { color: var(--warn); }
+  .seg-count.over { color: var(--danger); }
+  .seg-del { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 20px; line-height: 1; padding: 0; font-family: inherit; }
+  .connector { display: flex; gap: 12px; align-items: center; margin: 0 0 8px; }
+  .conn-line-wrap { width: 38px; display: flex; justify-content: center; flex-shrink: 0; }
+  .conn-line { width: 2px; height: 16px; background: var(--border2); }
+  .conn-label { font-size: 12px; color: var(--text3); }
+  .add-seg { display: flex; gap: 12px; align-items: center; padding: 4px 0 8px; }
+  .add-seg-line { width: 38px; display: flex; justify-content: center; flex-shrink: 0; }
+  .add-seg-btn { font-size: 13px; color: var(--text3); background: none; border: none; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px; }
+  .sheet-footer { border-top: 0.5px solid var(--border); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; gap: 8px; }
+  .footer-left { display: flex; gap: 8px; flex-wrap: wrap; }
+  .meta-sel, .meta-date { font-size: 13px; border: 0.5px solid var(--border2); border-radius: var(--radius-pill); padding: 5px 12px; background: var(--bg2); color: var(--text2); font-family: inherit; cursor: pointer; }
+  .total-count { font-size: 13px; color: var(--text3); white-space: nowrap; }
+  .total-count.warn { color: var(--warn); }
+
+  /* Tag manager sheet */
+  .tag-mgr-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 0.5px solid var(--border); }
+  .tag-mgr-name { font-size: 15px; }
+  .tag-mgr-del { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 20px; font-family: inherit; }
+  .tag-add-row { display: flex; gap: 8px; margin-top: 12px; }
+  .tag-add-input { flex: 1; background: var(--bg2); border: none; border-radius: var(--radius-sm); padding: 9px 12px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; }
+  .tag-add-btn { background: var(--accent); color: var(--accent-fg); border: none; border-radius: var(--radius-sm); padding: 9px 16px; font-size: 14px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-title">貼文素材庫</span>
+  <div class="topbar-right">
+    <button class="btn-icon" onclick="openTagMgr()" title="管理分類">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+    </button>
+    <button class="btn-write" onclick="openComposer()">撰寫</button>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <input class="search-input" type="text" placeholder="搜尋貼文..." id="search" oninput="renderPosts()">
+</div>
+
+<div class="filter-wrap" id="filter-bar"></div>
+
+<div id="post-list"><div class="loading"><div class="spinner"></div>載入中...</div></div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Composer -->
+<div class="overlay" id="composer-overlay">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <button class="sheet-cancel" onclick="closeComposer()">取消</button>
+      <span class="sheet-title" id="composer-title">新 thread</span>
+      <button class="sheet-save" onclick="savePost()" id="save-btn">儲存</button>
+    </div>
+    <div class="sheet-body">
+      <div class="composer-row">
+        <div class="composer-avatar" id="composer-avatar">我</div>
+        <div class="composer-right">
+          <div class="composer-name" id="composer-name">你的帳號</div>
+          <div id="segs-container"></div>
+          <div class="add-seg">
+            <div class="add-seg-line"><div style="width:2px;height:16px;background:var(--border2);"></div></div>
+            <button class="add-seg-btn" onclick="addSeg()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              新增段落
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sheet-footer">
+      <div class="footer-left">
+        <select class="meta-sel" id="c-tag"></select>
+        <input type="date" class="meta-date" id="c-date">
+      </div>
+      <span class="total-count" id="total-count">0 字</span>
+    </div>
+  </div>
+</div>
+
+<!-- Tag Manager -->
+<div class="overlay" id="tag-overlay">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <button class="sheet-cancel" onclick="closeTagMgr()">關閉</button>
+      <span class="sheet-title">管理分類</span>
+      <div style="width:48px;"></div>
+    </div>
+    <div class="sheet-body" id="tag-mgr-body"></div>
+  </div>
+</div>
+
+<script>
+const API = 'https://script.google.com/macros/s/AKfycbyGP2Qtuuh84G-p5MbVndPQV7sthBm7uvRl0oeJecBU2rOOGyjTSEeexisMHydKUbzklA/exec';
+const USERNAME = localStorage.getItem('username') || '我';
+
+let posts = [];
+let tags = ['讀書','生活','工作','THREADMILL'];
+let activeFilter = '';
+let editId = null;
+let draftSegs = [''];
+
+// --- API ---
+async function apiFetch(url) {
+  const r = await fetch(url);
+  return r.json();
+}
+async function apiPost(data) {
+  await fetch(API, { method: 'POST', body: JSON.stringify(data) });
+}
+
+async function loadAll() {
+  try {
+    const [postsData, tagsData] = await Promise.all([
+      apiFetch(API),
+      apiFetch(API + '?action=getTags').catch(() => tags)
+    ]);
+    posts = Array.isArray(postsData) ? postsData : [];
+    if (Array.isArray(tagsData) && tagsData.length) tags = tagsData;
+  } catch(e) {
+    posts = [];
+  }
+  renderFilter();
+  renderPosts();
+}
+
+async function saveTags() {
+  try { await apiPost({ action: 'saveTags', tags }); } catch(e) {}
+  localStorage.setItem('tags_cache', JSON.stringify(tags));
+}
+
+// --- Helpers ---
+function segsOf(content) {
+  return String(content || '').split(/\n\n+/).map(s => s.trim()).filter(Boolean);
+}
+function totalChars(segs) { return segs.reduce((a, s) => a + s.length, 0); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '已複製';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('done'); }, 1500);
+  });
+}
+
+// --- Filter ---
+function renderFilter() {
+  const usedTags = [...new Set(posts.map(p => p.tag).filter(Boolean))];
+  const show = ['全部', ...tags.filter(t => usedTags.includes(t))];
+  document.getElementById('filter-bar').innerHTML = show.map(t => {
+    const v = t === '全部' ? '' : t;
+    return `<button class="ftag ${activeFilter === v ? 'active' : ''}" onclick="setFilter('${v}')">${t}</button>`;
+  }).join('');
+}
+function setFilter(t) { activeFilter = t; renderFilter(); renderPosts(); }
+
+// --- Posts ---
+function renderPosts() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = posts.filter(p => {
+    const matchTag = !activeFilter || p.tag === activeFilter;
+    const matchQ = !q || (String(p.content) + String(p.tag)).toLowerCase().includes(q);
+    return matchTag && matchQ;
+  });
+
+  const list = document.getElementById('post-list');
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty">還沒有貼文<br>點「撰寫」開始新增</div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(p => {
+    const segs = segsOf(p.content);
+    const total = totalChars(segs);
+    const dateLabel = p.schedDate ? `📅 ${p.schedDate}` : (p.createdDate || '');
+    const contentHtml = segs.map((s, i) =>
+      `<span>${s.replace(/</g,'&lt;')}</span>${i < segs.length - 1 ? '<span class="seg-gap"></span>' : ''}`
+    ).join('');
+    const copyBtns = segs.length > 1
+      ? segs.map((s, i) => `<button class="copy-btn" onclick="copyText(${JSON.stringify(s)},this)">段落 ${i+1}</button>`).join('')
+        + `<button class="copy-btn" onclick="copyText(${JSON.stringify(segs.join('\n\n'))},this)">全部</button>`
+      : `<button class="copy-btn" onclick="copyText(${JSON.stringify(p.content)},this)">複製</button>`;
+
+    return `<div class="post-item">
+      <div class="post-row">
+        <div class="avatar">${USERNAME.slice(0,1)}</div>
+        <div class="post-body">
+          <div class="post-top">
+            <span class="post-username">${USERNAME}</span>
+            <div class="post-right">
+              ${p.tag ? `<span class="post-tag-pill">${p.tag}</span>` : ''}
+              <span class="post-date">${dateLabel}</span>
+            </div>
+          </div>
+          <div class="post-content">${contentHtml}</div>
+          <div class="post-stats">${total} 字・${segs.length} 段</div>
+          <div class="copy-row">${copyBtns}</div>
+          <div class="post-actions">
+            <button class="act-btn" onclick="openComposer('${p.id}')">編輯</button>
+            <button class="act-btn" onclick="deletePost('${p.id}')">刪除</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// --- Delete ---
+async function deletePost(id) {
+  if (!confirm('確定刪除？')) return;
+  posts = posts.filter(x => x.id !== id);
+  renderPosts();
+  try { await apiPost({ action: 'delete', id }); showToast('已刪除'); } catch(e) {}
+}
+
+// --- Composer ---
+function openComposer(id) {
+  editId = id || null;
+  if (id) {
+    const p = posts.find(x => x.id === id);
+    draftSegs = segsOf(p.content);
+    if (!draftSegs.length) draftSegs = [''];
+    document.getElementById('c-date').value = p.schedDate || '';
+    document.getElementById('composer-title').textContent = '編輯 thread';
+  } else {
+    draftSegs = [''];
+    document.getElementById('c-date').value = '';
+    document.getElementById('composer-title').textContent = '新 thread';
+  }
+  renderTagSelect(id ? posts.find(x=>x.id===id)?.tag : '');
+  renderSegsEditor();
+  document.getElementById('composer-overlay').classList.add('open');
+}
+function closeComposer() {
+  document.getElementById('composer-overlay').classList.remove('open');
+  editId = null;
+}
+
+function renderTagSelect(selected) {
+  const sel = document.getElementById('c-tag');
+  sel.innerHTML = `<option value="">無分類</option>` + tags.map(t => `<option value="${t}" ${t === selected ? 'selected' : ''}>${t}</option>`).join('');
+}
+
+function renderSegsEditor() {
+  const container = document.getElementById('segs-container');
+  container.innerHTML = '';
+  draftSegs.forEach((seg, i) => {
+    if (i > 0) {
+      const conn = document.createElement('div');
+      conn.className = 'connector';
+      conn.innerHTML = `<div class="conn-line-wrap"><div class="conn-line"></div></div><span class="conn-label">段落 ${i+1}</span>`;
+      container.appendChild(conn);
+    }
+    const block = document.createElement('div');
+    block.className = 'seg-block';
+    const ta = document.createElement('textarea');
+    ta.className = 'seg-ta';
+    ta.placeholder = i === 0 ? '分享新事物...' : '繼續這條 thread...';
+    ta.value = seg;
+    ta.rows = 3;
+    ta.oninput = function() {
+      draftSegs[i] = this.value;
+      autoResize(this);
+      updateCounts();
+    };
+    block.appendChild(ta);
+    const footer = document.createElement('div');
+    footer.className = 'seg-footer';
+    const cc = document.createElement('span');
+    cc.className = 'seg-count';
+    footer.appendChild(cc);
+    if (i > 0) {
+      const del = document.createElement('button');
+      del.className = 'seg-del';
+      del.textContent = '×';
+      del.onclick = () => { draftSegs.splice(i, 1); renderSegsEditor(); };
+      footer.appendChild(del);
+    }
+    block.appendChild(footer);
+    container.appendChild(block);
+    setTimeout(() => autoResize(ta), 10);
+  });
+  updateCounts();
+}
+
+function autoResize(ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }
+
+function updateCounts() {
+  const total = totalChars(draftSegs);
+  const tc = document.getElementById('total-count');
+  tc.className = 'total-count' + (total > 2000 ? ' warn' : '');
+  tc.textContent = `共 ${total} 字`;
+  document.querySelectorAll('#segs-container .seg-block').forEach((block, i) => {
+    const cc = block.querySelector('.seg-count');
+    const l = (draftSegs[i] || '').length;
+    cc.className = 'seg-count' + (l > 500 ? ' over' : l > 450 ? ' warn' : '');
+    cc.textContent = `${l} / 500`;
+  });
+}
+
+function addSeg() { draftSegs.push(''); renderSegsEditor(); }
+
+async function savePost() {
+  const segs = draftSegs.map(s => s.trim()).filter(Boolean);
+  if (!segs.length) { showToast('請輸入內容'); return; }
+  const btn = document.getElementById('save-btn');
+  btn.textContent = '儲存中...'; btn.disabled = true;
+  const content = segs.join('\n\n');
+  const tag = document.getElementById('c-tag').value;
+  const schedDate = document.getElementById('c-date').value;
+  const now = new Date().toLocaleDateString('zh-TW');
+  const id = editId || Date.now().toString();
+  const post = { id, content, tag, schedDate, createdDate: editId ? (posts.find(x=>x.id===editId)?.createdDate || now) : now };
+  if (editId) {
+    const idx = posts.findIndex(x => x.id === editId);
+    if (idx >= 0) posts[idx] = post;
+  } else {
+    posts.unshift(post);
+  }
+  renderFilter(); renderPosts();
+  closeComposer();
+  try {
+    await apiPost({ action: 'save', ...post });
+    showToast('已儲存');
+  } catch(e) { showToast('儲存失敗，請檢查網路'); }
+  btn.textContent = '儲存'; btn.disabled = false;
+}
+
+// --- Tag Manager ---
+function openTagMgr() {
+  renderTagMgr();
+  document.getElementById('tag-overlay').classList.add('open');
+}
+function closeTagMgr() { document.getElementById('tag-overlay').classList.remove('open'); }
+
+function renderTagMgr() {
+  const body = document.getElementById('tag-mgr-body');
+  body.innerHTML = tags.map(t => `
+    <div class="tag-mgr-item">
+      <span class="tag-mgr-name">${t}</span>
+      <button class="tag-mgr-del" onclick="delTag('${t}')">×</button>
+    </div>`).join('') +
+    `<div class="tag-add-row">
+      <input class="tag-add-input" type="text" id="new-tag-inp" placeholder="新增分類...">
+      <button class="tag-add-btn" onclick="addTag()">新增</button>
+    </div>`;
+  const inp = document.getElementById('new-tag-inp');
+  inp.onkeydown = e => { if (e.key === 'Enter') addTag(); };
+}
+
+function delTag(t) {
+  tags = tags.filter(x => x !== t);
+  saveTags(); renderTagMgr(); renderFilter();
+}
+function addTag() {
+  const inp = document.getElementById('new-tag-inp');
+  const v = inp.value.trim();
+  if (!v || tags.includes(v)) { inp.value = ''; return; }
+  tags.push(v); inp.value = '';
+  saveTags(); renderTagMgr(); renderFilter();
+  showToast(`已新增「${v}」`);
+}
+
+// --- Init ---
+document.getElementById('composer-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('composer-overlay')) closeComposer();
+});
+document.getElementById('tag-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('tag-overlay')) closeTagMgr();
+});
+
+loadAll();
+</script>
+</body>
+</html>
