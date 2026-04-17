@@ -711,6 +711,14 @@ function totalChars(segs) {
   return segs.reduce((sum, seg) => sum + seg.length, 0);
 }
 
+function truncateText(text, maxLength = 30) {
+  const raw = String(text || "").replace(/\s+/g, " ").trim();
+  if (raw.length <= maxLength) {
+    return raw;
+  }
+  return `${raw.slice(0, maxLength)}...`;
+}
+
 function showToast(msg) {
   const toast = document.getElementById("toast");
   toast.textContent = msg;
@@ -873,7 +881,7 @@ function renderPosts() {
     const dateLabel = post.schedDate ? `排程 ${post.schedDate}` : (post.createdDate || "");
     const contentHtml = segs.map((seg, index) => {
       const gap = index < segs.length - 1 ? '<span class="seg-gap"></span>' : "";
-      return `<span>${escapeHtml(seg)}</span>${gap}`;
+      return `<span>${escapeHtml(truncateText(seg, 30))}</span>${gap}`;
     }).join("");
     const copyButtons = segs.length > 1
       ? [
